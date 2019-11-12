@@ -1,4 +1,3 @@
-Soy el usuario dos.
 Yo el uno
 aa
 a
