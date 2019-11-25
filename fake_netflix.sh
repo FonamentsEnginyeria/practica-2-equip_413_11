@@ -158,6 +158,8 @@ done
 
 #Fin de las funciones del menú criterios de búsqueda.------------------------------------------------------------
 
+synchronize_catalogue
+
 delete_dupiclate_lines
 
 main_menu_option=""
