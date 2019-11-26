@@ -14,7 +14,8 @@ print_main_menu() {
 2) Llistar per any.\n
 3) Llistar per rating.\n
 4) Criteris de cerca.\n
-5) Sortir\n\nOpció: "
+6) Eliminacio registres. \n
+7) Sortir\n\nOpció: "
 
 }
 
@@ -81,6 +82,14 @@ delete_dupiclate_lines() {
 	sort $file_name | uniq > $output_file
 	rm netflix.csv
 	mv $output_file $file_name
+
+}
+
+remove_register() {
+
+	printf "Introdueix una serie de caracters per eliminar: \n"
+	read caracters_a_eliminar
+	grep -i "e$" $caracters_a_eliminar $file_name
 
 }
 
@@ -153,7 +162,7 @@ delete_dupiclate_lines
 
 main_menu_option=""
 
-while [ "$main_menu_option" != "5" ]
+while [ "$main_menu_option" != "7" ]
 do
 	print_main_menu
 
@@ -166,7 +175,8 @@ do
             '2') year_list;;
 	    '3') rating_list;;
 	    '4') search_criteria;;
-            '5') printf "Sortir...";;
+	    '6') remove_register;;
+            '7') printf "Sortir...";;
             *)   printf "Error, $main_menu_option no es una opció vàlida, tornant al menu..."; sleep 3; clear;;
         esac
 done
