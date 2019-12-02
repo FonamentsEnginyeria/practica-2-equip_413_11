@@ -88,9 +88,38 @@ delete_dupiclate_lines() {
 remove_register() {
 
 	printf "Introdueix una serie de caracters per eliminar: \n"
-	read caracters_a_eliminar
-	grep -i "e$" $caracters_a_eliminar $file_name
+	read research_by_character
+	awk -F "," '{if($1 !="title,rating,ratingdescription,ratinglevel,release_year,user_rating_score,user_rating_size") print $0}' $file_name | grep $research_by_character
 
+	is_remove_register_running=false
+
+	while [ "$is_remove_register_running" == "false" ]
+	do
+		printf "Vols elimiar aquets registres? [Y/N]"
+		read remove_register_confirmation_option
+
+		if [ $remove_register_confirmation_option == "Y" ] || [ $remove_register_confirmation_option == "y" ];
+		then
+			printf "Segur que vols elimiar aquets registres? [Y/N]"
+			read remove_register_confirmation_option
+			if [ $remove_register_confirmation_option == "Y" ] || [ $remove_register_confirmation_option == "y" ];
+			then
+				printf "Elimino cosas."
+				awk -F "," '{if($1 !="title,rating,ratingdescription,ratinglevel,release_year,user_rating_score,user_rating_size") print $0}' $file_name | grep $research_by_character >> temp_file.csv
+				diff -u temp_file.csv netflix.csv | grep '^\+' | sed -E 's/^\+//' | tail +2 >> netflix_temp.csv
+				rm temp_file.csv
+				is_remove_register_running=true
+			elif [ $remove_register_confirmation_option == "N" ] || [ $remove_register_confirmation_option == "n" ];
+			then
+				printf "No hago nada."
+				is_remove_register_running=true
+			fi
+		elif [ $remove_register_confirmation_option == "N" ] || [ $remove_register_confirmation_option == "n" ];
+			then
+				printf "No hago nada."
+				is_remove_register_running=true
+		fi
+	done
 }
 
 #Principio de las funciones del menú criterios de búsqueda.--------------------------------------------------------
