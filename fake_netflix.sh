@@ -84,6 +84,15 @@ delete_dupiclate_lines() {
 
 }
 
+create_year_dir() {
+
+	awk -F ',' '{if($5 !="release_year")print $5}' $file_name > years_dirs.csv
+	sort years_dirs.csv | uniq > sort_years_dir.csv
+	rm years_dirs.csv
+	mv sort_years_dir.csv years_dirs.csv
+	mkdir $(<years_dirs.csv)
+}
+
 #Principio de las funciones del menú criterios de búsqueda.--------------------------------------------------------
 
 print_search_criteria_menu(){
@@ -150,6 +159,8 @@ done
 #Fin de las funciones del menú criterios de búsqueda.------------------------------------------------------------
 
 delete_dupiclate_lines
+
+create_year_dir
 
 main_menu_option=""
 
