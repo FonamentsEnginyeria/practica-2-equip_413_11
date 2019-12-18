@@ -87,9 +87,17 @@ delete_dupiclate_lines() {
 
 remove_register() {
 
+	FILE=netflix_temp.csv
+	if test -f "$FILE"; then
+		echo "$FILE exist"
+	else
+		echo "$FILE doesen't exist"
+		cp netflix.csv netflix_temp.csv
+	fi
+
 	printf "Introdueix una serie de caracters per eliminar: \n"
 	read research_by_character
-	awk -F "," '{if($1 !="title,rating,ratingdescription,ratinglevel,release_year,user_rating_score,user_rating_size") print $0}' $file_name | grep $research_by_character
+	awk -F "," '{if($1 !="title,rating,ratingdescription,ratinglevel,release_year,user_rating_score,user_rating_size") print $0}' $FILE | grep $research_by_character
 
 	is_remove_register_running=false
 
@@ -105,8 +113,11 @@ remove_register() {
 			if [ $remove_register_confirmation_option == "Y" ] || [ $remove_register_confirmation_option == "y" ];
 			then
 				printf "Elimino cosas."
-				awk -F "," '{if($1 !="title,rating,ratingdescription,ratinglevel,release_year,user_rating_score,user_rating_size") print $0}' $file_name | grep $research_by_character >> temp_file.csv
-				diff -u temp_file.csv netflix.csv | grep '^\+' | sed -E 's/^\+//' | tail +2 >> netflix_temp.csv
+				awk -F "," '{if($1 !="title,rating,ratingdescription,ratinglevel,release_year,user_rating_score,user_rating_size") print $0}' $FILE | grep $research_by_character >> temp_file.csv
+				diff -u temp_file.csv $FILE | grep '^\+' | sed -E 's/^\+//' | tail +2 >> temp_file2.csv
+				rm $FILE
+				cp temp_file2.csv $FILE
+				rm temp_file2.csv
 				rm temp_file.csv
 				is_remove_register_running=true
 			elif [ $remove_register_confirmation_option == "N" ] || [ $remove_register_confirmation_option == "n" ];
