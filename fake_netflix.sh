@@ -88,6 +88,14 @@ delete_dupiclate_lines() {
 #Permite añadir un nuevo registro al csv.
 add_new_register() {
 
+	FILE=netflix_temp.csv
+	if test -f "$FILE"; then
+		echo "$FILE exist"
+	else
+		echo "$FILE doesen't exist"
+		cp netflix.csv netflix_temp.csv
+	fi
+
 	printf "Nom de la pel·lícula [title]: "
 	read title
 
