@@ -117,8 +117,6 @@ add_new_register() {
 	printf "User rating size de la pel·lícula [user rating size]: "
 	read user_rating_size
 
-	printf "Està segur que vol introduïr aquest registre?"
-
 	printf "$title,$rating,$rating_description,$rating_level,$release_year,$user_rating_score,$user_rating_size\n" >> netflix_temp.csv
 	
 }
