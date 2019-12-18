@@ -86,12 +86,26 @@ delete_dupiclate_lines() {
 
 }
 
+file_exist() {
+
+	#Comprueba si ya se está usando un archivo temporal (copia de netflix.csv) en esta sesión.
+	FILE=netflix_temp.csv
+	if test -f "$FILE"; then
+		echo "$FILE exist"
+	else
+		echo "$FILE doesen't exist"
+		cp netflix.csv netflix_temp.csv
+	fi
+
+}
+
 #Actualiza el archivo local netflix.csv añadiendo el contenido de un archivo almacenado en GitHub
 synchronize_catalogue() {
 
 	wget https://raw.githubusercontent.com/acocauab/practica2csv/master/test.csv
 	diff -u netflix.csv test.csv | grep '^\+' | sed -E 's/^\+//' | tail +2 >> netflix.csv
-	rm test.csv	
+	rm test.csv
+	rm netflix_temp.csv	
 }
 
 create_year_dir() {	
@@ -126,14 +140,7 @@ create_year_dir() {
 #Permite añadir un nuevo registro al csv.
 add_new_register() {
 
-	#Comprueba si ya se está usando un archivo temporal (copia de netflix.csv) en esta sesión.
-	FILE=netflix_temp.csv
-	if test -f "$FILE"; then
-		echo "$FILE exist"
-	else
-		echo "$FILE doesen't exist"
-		cp netflix.csv netflix_temp.csv
-	fi
+	file_exist
 
 	printf "Nom de la pel·lícula [title]: "
 	read title
@@ -161,6 +168,8 @@ add_new_register() {
 }
 
 remove_register() {
+
+	file_exist	
 
 	printf "Introdueix una serie de caracters per eliminar: \n"
 	read research_by_character
