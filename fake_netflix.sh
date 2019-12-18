@@ -87,6 +87,7 @@ delete_dupiclate_lines() {
 
 remove_register() {
 
+	#Comprueba si ya se está usando un archivo temporal (copia de netflix.csv) en esta sesión.
 	FILE=netflix_temp.csv
 	if test -f "$FILE"; then
 		echo "$FILE exist"
