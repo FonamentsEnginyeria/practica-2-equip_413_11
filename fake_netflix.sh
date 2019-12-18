@@ -84,10 +84,13 @@ delete_dupiclate_lines() {
 
 }
 
-create_year_dir() {
-	
+create_year_dir() {	
+
 	#Crea un archivo con todos los años del csv original.
 	awk -F ',' '{if($5 !="release_year")print $5}' $file_name > years_dirs.csv
+
+	#Comprueba si los directorios existen
+	printf "Aquí va la comprobación."
 
 	#Filtra todos los años para que no se repitan.
 	sort years_dirs.csv | uniq > sort_years_dir.csv
