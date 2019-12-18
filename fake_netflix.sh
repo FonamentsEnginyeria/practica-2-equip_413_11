@@ -14,7 +14,8 @@ print_main_menu() {
 2) Llistar per any.\n
 3) Llistar per rating.\n
 4) Criteris de cerca.\n
-5) Sortir\n\nOpció: "
+5) Afegir registre.\n
+7) Sortir\n\nOpció: "
 
 }
 
@@ -84,6 +85,7 @@ delete_dupiclate_lines() {
 
 }
 
+<<<<<<< HEAD
 #Actualiza el archivo local netflix.csv añadiendo el contenido de un archivo almacenado en GitHub
 synchronize_catalogue() {
 
@@ -119,6 +121,42 @@ create_year_dir() {
 	done < years_dirs.csv
 
 	rm years_dirs.csv
+}
+
+#Permite añadir un nuevo registro al csv.
+add_new_register() {
+
+	FILE=netflix_temp.csv
+	if test -f "$FILE"; then
+		echo "$FILE exist"
+	else
+		echo "$FILE doesen't exist"
+		cp netflix.csv netflix_temp.csv
+	fi
+
+	printf "Nom de la pel·lícula [title]: "
+	read title
+
+	printf "Rating de la de la pel·lícula [rating]: "
+	read rating
+	
+	printf "Descripció del rating de la pel·lícula [rating score]: "
+	read rating_description
+
+	printf "Nivell de rating de la pel·lícula [rating level]: "
+	read rating_level
+	
+	printf "Any de publicació de la pel·lícula [release year]: "
+	read release_year
+
+	printf "Valoració de la pel·lícula [user rating score]: "
+	read user_rating_score
+
+	printf "User rating size de la pel·lícula [user rating size]: "
+	read user_rating_size
+
+	printf "$title,$rating,$rating_description,$rating_level,$release_year,$user_rating_score,$user_rating_size\n" >> netflix_temp.csv
+
 }
 
 #Principio de las funciones del menú criterios de búsqueda.--------------------------------------------------------
@@ -194,7 +232,7 @@ create_year_dir
 
 main_menu_option=""
 
-while [ "$main_menu_option" != "5" ]
+while [ "$main_menu_option" != "7" ]
 do
 	print_main_menu
 
@@ -207,7 +245,8 @@ do
             '2') year_list;;
 	    '3') rating_list;;
 	    '4') search_criteria;;
-            '5') printf "Sortir...";;
+	    '5') add_new_register;;
+            '7') printf "Sortir...";;
             *)   printf "Error, $main_menu_option no es una opció vàlida, tornant al menu..."; sleep 3; clear;;
         esac
 done
