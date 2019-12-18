@@ -163,6 +163,7 @@ add_new_register() {
 	printf "User rating size de la pel·lícula [user rating size]: "
 	read user_rating_size
 
+	#Con todos los años pedidos inserta los datos en la base de datos temporal.
 	printf "$title,$rating,$rating_description,$rating_level,$release_year,$user_rating_score,$user_rating_size\n" >> netflix_temp.csv
 
 }
@@ -171,10 +172,12 @@ remove_register() {
 
 	file_exist	
 
+	#Busca en el la base de datos temporal segun los datos de busqueda que le das.
 	printf "Introdueix una serie de caracters per eliminar: \n"
 	read research_by_character
 	awk -F "," '{if($1 !="title,rating,ratingdescription,ratinglevel,release_year,user_rating_score,user_rating_size") print $0}' $FILE | grep $research_by_character
 
+	#Tiene un bucle while para que te pregunte otra vez sobre la confirmación en caso de que insertes algún char incorrecto.
 	is_remove_register_running=false
 
 	while [ "$is_remove_register_running" == "false" ]
