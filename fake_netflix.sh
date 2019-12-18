@@ -84,6 +84,15 @@ delete_dupiclate_lines() {
 
 }
 
+#Actualiza el archivo local netflix.csv añadiendo el contenido de un archivo almacenado en GitHub
+synchronize_catalogue() {
+
+	wget https://raw.githubusercontent.com/acocauab/practica2csv/master/test.csv
+	diff -u netflix.csv test.csv | grep '^\+' | sed -E 's/^\+//' | tail +2 >> netflix.csv
+	rm test.csv	
+
+}
+
 #Principio de las funciones del menú criterios de búsqueda.--------------------------------------------------------
 
 print_search_criteria_menu(){
@@ -148,6 +157,8 @@ done
 }
 
 #Fin de las funciones del menú criterios de búsqueda.------------------------------------------------------------
+
+synchronize_catalogue
 
 delete_dupiclate_lines
 
