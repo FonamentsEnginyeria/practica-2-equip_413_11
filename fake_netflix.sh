@@ -90,7 +90,35 @@ synchronize_catalogue() {
 	wget https://raw.githubusercontent.com/acocauab/practica2csv/master/test.csv
 	diff -u netflix.csv test.csv | grep '^\+' | sed -E 's/^\+//' | tail +2 >> netflix.csv
 	rm test.csv	
+}
 
+create_year_dir() {	
+
+	#Crea un archivo con todos los años del csv original.
+	awk -F ',' '{if($5 !="release_year")print $5}' $file_name > years_dirs.csv
+
+	#Comprueba si los directorios existen
+	printf "Aquí va la comprobación."
+
+	#Filtra todos los años para que no se repitan.
+	sort years_dirs.csv | uniq > sort_years_dir.csv
+	rm years_dirs.csv
+	mv sort_years_dir.csv years_dirs.csv
+
+	#Crea los directorios de los años que hay en el csv de años filtrados.
+	#Falta comprobar si existe.
+	mkdir $(<years_dirs.csv)
+	
+	#Abre el archivo 
+	#Mientras hay linias pilla la fila
+	#De esa fila haces un awk mirando si ese valor coincide con alguna
+	#pelicula que tenga ese año lo lleva al directorio de la variable y así con todos.
+	while IFS= read -r line
+	do
+  		awk -F ',' '{if($5=='$line') print $0}' $file_name >> $line/$line-netflix.csv
+	done < years_dirs.csv
+
+	rm years_dirs.csv
 }
 
 #Principio de las funciones del menú criterios de búsqueda.--------------------------------------------------------
@@ -161,6 +189,8 @@ done
 synchronize_catalogue
 
 delete_dupiclate_lines
+
+create_year_dir
 
 main_menu_option=""
 
