@@ -58,5 +58,46 @@ grep '^\+' | sed -E 's/^\+//' | tail +2
 
 La segunda función crea directorios por cada año existente en la base de datos.
 
+Se genera un directorio por cada año en el que haya alguna película en la base de datos, es decir, por ejemplo si en nuestra base de datos hay tres películas con los años 2000, 2007 y 1998, entonces se crearán tres directorios respectivamente y dentro de estos un archivo .csv con las películas que salieron en ese año ( en este caso solo tendríamos una en cada archivo ). Cada directorio se creará con el nombre del año y dentro de este habrá el archivo .csv de todas las películas que salieron ese año, este archivo se llamará como el archivo original de la base de datos pero añadiendo un guion y el año de las películas que estamos almacenando ( en este caso sería "2000-netflix.csv".
 
+No tenemos comandos destacados para esta función.
+
+### Código
+
+```
+create_year_dir() {	
+
+	#Crea un archivo con todos los años del csv original.
+	awk -F ',' '{if($5 !="release_year")print $5}' $file_name > years_dirs.csv
+
+	#Comprueba si los directorios existen
+	printf "Aquí va la comprobación."
+
+	#Filtra todos los años para que no se repitan.
+	sort years_dirs.csv | uniq > sort_years_dir.csv
+	rm years_dirs.csv
+	mv sort_years_dir.csv years_dirs.csv
+
+	#Crea los directorios de los años que hay en el csv de años filtrados.
+	#Falta comprobar si existe.
+	mkdir $(<years_dirs.csv)
+	
+	#Abre el archivo 
+	#Mientras hay linias pilla la fila
+	#De esa fila haces un awk mirando si ese valor coincide con alguna
+	#pelicula que tenga ese año lo lleva al directorio de la variable y así con todos.
+	while IFS= read -r line
+	do
+  		awk -F ',' '{if($5=='$line') print $0}' $file_name >> $line/$line-netflix.csv
+	done < years_dirs.csv
+
+	rm years_dirs.csv
+}
+```
+
+Crea un archivo con todos los años del csv original. Comprueba si los directorios existen. Filtra todos los años para que no se repitan. Crea los directorios de los años que hay en el csv de años filtrados. Abre el archivo, mientras hay linias selecciona la fila, de esa fila haces un awk mirando si ese valor coincide con alguna pelicula que tenga ese año y lo lleva al directorio de la variable y así con todos los años.
+
+### Problemas
+
+En este caso no había problema alguno, únicamente puden existir errores a la hora de crear algún directorio ya que el usuario puede introducir variables que no sean números en la casilla de año y por lo tanto si escribe el nombre de un directorio existente, no se creará.
 
