@@ -219,6 +219,11 @@ Para evitar problemas en esta función, se han reutilizado trozos de código de 
 En este caso se ha usado mucho el comando awk para recorrer el archivo y el comando de diff para poder clasificar el contenido de los archivos.
 
 
+## Fusión de ramas
+
+Con tal de fusionar ramas, debemos estar apuntando a la rama principal aún que primero se tiene que hacer un "git checkout" de todas las ramas para comprobar que están todas actualizadas con el repositorio remoto. Una vez comprobado y estando en la rama principal ( master ) tenemos que introducir el comando "git merge nombre_branch" donde nombre_branch es el nombre de la rama que queremos fusionar a la rama en la que estamos actualmente. Por cada rama cabe la posibilidad de que la fusión automática falle y en ese caso nos pedirá que modifiquemos el archivo con tal de solucionar los errores de compatibilidad. Una vez solucionados los errores con el merge, se hace commit y ya estará la rama fusionada.
+
+
 ## Conclusión
 
 Es una buena práctica para aprender a usar Git ya que se presentan funciones sencillas de realizar y deja mucho más espacio para poder probar y arriesgarte con los comandos de Git. Es una buena forma de poder probar cosas, ya que tienes un repositorio remoto que actua como backup así que puedes probar y manipular todo lo que quieras en tu repositorio local sin preocuparte de estropear el código. En el caso de estropear algo o bien puedes usar los commits locales o simplemente eliminar todo el proyecto de forma local y volverlo a clonar desde el repositorio remoto.
