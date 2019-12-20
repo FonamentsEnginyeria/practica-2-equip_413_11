@@ -1,5 +1,8 @@
 # Práctica 2 Git
 
+Nombre: Gonzalo García Navarro
+NIU: 1564008
+
 ## Objetivo
 
 En esta práctica  tendremos como objetivo trabajar y practicar el uso de un SCV ( Sistema de Control de Versiones ) llamado Git. También seguriemos desarrollando nuestras habilidades con el lenguaje de programación shellscript ( Bash ) y descubrir que nos ofrecen estas herramientas cuando las ponemos en práctica juntas.
