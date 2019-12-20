@@ -31,7 +31,8 @@ Para ello, se han usado principalmente dos comandos que podemos destacar:
 
 ### Código
 
-```synchronize_catalogue() {
+```
+synchronize_catalogue() {
 
 	wget https://raw.githubusercontent.com/acocauab/practica2csv/master/test.csv
 	diff -u netflix.csv test.csv | grep '^\+' | sed -E 's/^\+//' | tail +2 >> netflix.csv
@@ -50,7 +51,8 @@ En el caso de wget para que se descargase correctamente el archivo se debe añad
 
 Por otra parte tenemos a diff que también da probelmas, ya que el comando añade al output unas señalizaiónes que a nosotros no nos interesan a la hora de añadir el contenido a la base de datos y para ello se ha filtrado el contenido con los siguientes comandos:
 
-```grep '^\+' | sed -E 's/^\+//' | tail +2
+```
+grep '^\+' | sed -E 's/^\+//' | tail +2
 ```
 
 
